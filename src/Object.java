@@ -26,6 +26,46 @@ public class Object {
         g.dispose();
         return newImage;
     }
+    public boolean[] checkCollision(Object reference) {
+        // 1. THIS collides with bottom of REFERENCE Object while going up
+        // 2. THIS collides with right of REFERENCE Object while going left
+        // 3. THIS collides with top of REFERENCE Object while going down
+        // 4. THIS collides with left of REFERENCE Object while going right
+        boolean[] collisions = {false, false, false, false};
+        int minXThis = xPos;
+        int maxXThis = xPos + width;
+        int minYThis = yPos + height;
+        int maxYThis = yPos;
+        int minXReference = reference.getX();
+        int maxXReference = reference.getX() + reference.getWidth();
+        int minYReference = reference.getY() + reference.getHeight();
+        int maxYReference = reference.getY();
+        boolean yClip = (maxXThis > maxXReference && minXThis < maxXReference)
+        || (minXThis < minXReference && maxXThis > minXReference);
+        if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
+            collisions[2] = true;
+        } else {
+            collisions[2] = false;
+        }
+        if(minYThis > minYReference && maxYThis < minYReference && yClip) {
+            collisions[0] = true;
+        } else {
+            collisions[0] = false;
+        }
+        boolean xClip = (maxYThis < maxYReference && minYThis > maxYReference)
+        || (minYThis > minYReference && maxYThis < minYReference);
+        if(maxXThis > maxXReference && minXThis < maxXReference && xClip) {
+            collisions[1] = true;
+        } else {
+            collisions[1] = false;
+        }
+        if(minXThis < minXReference && maxXThis > minXReference && xClip) {
+            collisions[3] = true;
+        } else {
+            collisions[3] = false;
+        }
+        return collisions;
+    }
     public JLabel getSprite() {
         return sprite;
     }
@@ -55,5 +95,11 @@ public class Object {
     }
     public int getYVel() {
         return yVel;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
     }
 }
