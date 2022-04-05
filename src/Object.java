@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Object {
     private JLabel sprite;
@@ -26,7 +27,7 @@ public class Object {
         g.dispose();
         return newImage;
     }
-    public boolean[] checkCollision(Object reference) {
+    public void checkCollision(Object reference) {
         // 1. THIS collides with bottom of REFERENCE Object while going up
         // 2. THIS collides with right of REFERENCE Object while going left
         // 3. THIS collides with top of REFERENCE Object while going down
@@ -40,31 +41,39 @@ public class Object {
         int maxXReference = reference.getX() + reference.getWidth();
         int minYReference = reference.getY() + reference.getHeight();
         int maxYReference = reference.getY();
+        boolean xClip = (maxYThis < maxYReference && minYThis > maxYReference)
+        || (minYThis > minYReference && maxYThis < minYReference) ||
+        (maxYThis > maxYReference && minYThis < minYReference);
         boolean yClip = (maxXThis > maxXReference && minXThis < maxXReference)
-        || (minXThis < minXReference && maxXThis > minXReference);
+        || (minXThis < minXReference && maxXThis > minXReference) ||
+        (maxXThis < maxXReference && minXThis > minXReference);
+//        boolean xCClip = (maxYThis < maxYReference)
+//        || (minYThis > minYReference);
         if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
             collisions[2] = true;
-        } else {
-            collisions[2] = false;
         }
         if(minYThis > minYReference && maxYThis < minYReference && yClip) {
             collisions[0] = true;
-        } else {
-            collisions[0] = false;
         }
-        boolean xClip = (maxYThis < maxYReference && minYThis > maxYReference)
-        || (minYThis > minYReference && maxYThis < minYReference);
         if(maxXThis > maxXReference && minXThis < maxXReference && xClip) {
             collisions[1] = true;
-        } else {
-            collisions[1] = false;
         }
         if(minXThis < minXReference && maxXThis > minXReference && xClip) {
             collisions[3] = true;
-        } else {
-            collisions[3] = false;
         }
-        return collisions;
+        if(collisions[0] && yVel < 0) {
+            yVel = 0;
+            System.out.println("W");
+        } else if(collisions[1] && xVel < 0) {
+            xVel = 0;
+            System.out.println("A");
+        } else if(collisions[2] && yVel > 0) {
+            yVel = 0;
+            System.out.println("S");
+        } else if(collisions[3] && xVel > 0) {
+            xVel = 0;
+            System.out.println("D");
+        }
     }
     public JLabel getSprite() {
         return sprite;
