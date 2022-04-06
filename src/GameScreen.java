@@ -18,8 +18,8 @@ public class GameScreen extends JPanel{
         setBackground(new Color(255,255,255));
         pl1 = new Player1(new File("images/BaseCharacterImagepng.png"), this,10, 550, 120, 160);
         bottom = new Platform(new File("images/platform.png"), this, 0, 750, 1400, 100);
-        left = new Platform(new File("images/platform.png"), this, 600, 300, 600, 100);
-        right = new Platform(new File("images/platform.png"), this, 300, 200, 600, 100);
+        left = new Platform(new File("images/platform.png"), this, 600, 150, 600, 100);
+        right = new Platform(new File("images/platform.png"), this, 300, 450, 600, 100);
         add(pl1.getSprite());
         add(bottom.getSprite());
         add(left.getSprite());
