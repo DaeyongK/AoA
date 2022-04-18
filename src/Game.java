@@ -23,7 +23,7 @@ public class Game {
 		frame.pack();
 		frame.setVisible(true);
 		frame.repaint();
-		frame.setSize(1400, 900);
+		frame.setSize(1400, 950);
 		contentPane.run();
 	}
 }

@@ -4,20 +4,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-
 public class Object {
     private JLabel sprite;
     private int xPos, yPos, xVel, yVel, width, height;
-    private GameScreen gs;
-    Object(File spriteFile, GameScreen gameScreen, int initX, int initY, int initWidth, int initHeight) throws IOException {
+    private int jump = 1;
+    Object(File spriteFile, GameScreen gameScreen, int initX, int initY, int initWidth, int initHeight, double g) throws IOException {
         xPos = initX;
         yPos = initY;
         width = initWidth;
         height = initHeight;
-        sprite = new JLabel(new ImageIcon(resizeImage(ImageIO.read(spriteFile), initWidth,initHeight)));
+        sprite = new JLabel(new ImageIcon(resizeImage(ImageIO.read(spriteFile), initWidth, initHeight)));
         sprite.setBounds(initX, initY, initWidth, initHeight);
-        gs = gameScreen;
     }
     private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
@@ -27,16 +24,19 @@ public class Object {
         g.dispose();
         return newImage;
     }
+    public void gravityCalc() {
+        yVel += 1;
+    }
     public void checkCollision(Object reference) {
         // 1. THIS collides with bottom of REFERENCE Object while going up
         // 2. THIS collides with right of REFERENCE Object while going left
         // 3. THIS collides with top of REFERENCE Object while going down
         // 4. THIS collides with left of REFERENCE Object while going right
         boolean[] collisions = {false, false, false, false};
-        int minXThis = xPos;
-        int maxXThis = xPos + width;
-        int minYThis = yPos + height;
-        int maxYThis = yPos;
+        int minXThis = xPos + xVel;
+        int maxXThis = xPos + width + xVel;
+        int minYThis = yPos + height + yVel;
+        int maxYThis = yPos + yVel;
         int minXReference = reference.getX();
         int maxXReference = reference.getX() + reference.getWidth();
         int minYReference = reference.getY() + reference.getHeight();
@@ -47,32 +47,30 @@ public class Object {
         boolean yClip = (maxXThis > maxXReference && minXThis < maxXReference)
         || (minXThis < minXReference && maxXThis > minXReference) ||
         (maxXThis < maxXReference && minXThis > minXReference);
-//        boolean xCClip = (maxYThis < maxYReference)
-//        || (minYThis > minYReference);
         if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
             collisions[2] = true;
+            jump = 1;
+            yPos += yVel - (minYThis - maxYReference);
+            yVel = 0;
         }
         if(minYThis > minYReference && maxYThis < minYReference && yClip) {
+            yVel = minYReference - maxYThis;
             collisions[0] = true;
+            if(yVel < 0) {
+                yVel = 0;
+            }
         }
-        if(maxXThis > maxXReference && minXThis < maxXReference && xClip) {
+        if(maxXThis > maxXReference && minXThis == maxXReference && xClip) {
             collisions[1] = true;
+            if(xVel < 0) {
+                xVel = 0;
+            }
         }
-        if(minXThis < minXReference && maxXThis > minXReference && xClip) {
+        if(minXThis < minXReference && maxXThis == minXReference && xClip) {
             collisions[3] = true;
-        }
-        if(collisions[0] && yVel < 0) {
-            yVel = 0;
-            System.out.println("W");
-        } else if(collisions[1] && xVel < 0) {
-            xVel = 0;
-            System.out.println("A");
-        } else if(collisions[2] && yVel > 0) {
-            yVel = 0;
-            System.out.println("S");
-        } else if(collisions[3] && xVel > 0) {
-            xVel = 0;
-            System.out.println("D");
+            if(xVel > 0) {
+                xVel = 0;
+            }
         }
     }
     public JLabel getSprite() {
@@ -110,5 +108,11 @@ public class Object {
     }
     public int getHeight() {
         return height;
+    }
+    public int getJump() {
+        return jump;
+    }
+    public void subtractJump() {
+        jump -= 1;
     }
 }
