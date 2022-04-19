@@ -10,8 +10,8 @@ public class GameScreen extends JPanel{
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
-        pl1 = new Player1(new File("images/BaseCharacterImagepng.png"), this,10, 100, 60, 80);
-        pl2 = new Player2(new File("images/BaseCharacterImagepng.png"), this,1330, 100, 60, 80);
+        pl1 = new Player1(new File("images/Kaguya_Walking_One.png"), this,10, 100, 35, 100);
+        pl2 = new Player2(new File("images/Kaguya_Walking_One.png"), this,1330, 100, 35, 100);
         bottom = new Platform(new File("images/platform.png"), this, 0, 825, 1400, 100);
         l1 = new Platform(new File("images/platform.png"), this, 250, 620, 200, 40);
         l2 = new Platform(new File("images/platform.png"), this, 600, 620, 200, 40);

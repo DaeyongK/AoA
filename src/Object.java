@@ -41,11 +41,11 @@ public class Object {
         int maxXReference = reference.getX() + reference.getWidth();
         int minYReference = reference.getY() + reference.getHeight();
         int maxYReference = reference.getY();
-        boolean xClip = (maxYThis < maxYReference && minYThis > maxYReference)
-        || (minYThis > minYReference && maxYThis < minYReference) ||
+        boolean xClip = (maxYThis <= maxYReference && minYThis > maxYReference)
+        || (minYThis >= minYReference && maxYThis < minYReference) ||
         (maxYThis > maxYReference && minYThis < minYReference);
-        boolean yClip = (maxXThis > maxXReference && minXThis < maxXReference)
-        || (minXThis < minXReference && maxXThis > minXReference) ||
+        boolean yClip = (maxXThis >= maxXReference && minXThis < maxXReference)
+        || (minXThis <= minXReference && maxXThis > minXReference) ||
         (maxXThis < maxXReference && minXThis > minXReference);
         if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
             collisions[2] = true;
