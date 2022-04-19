@@ -2,8 +2,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 public class Player1 extends Player {
-    Player1(File spriteFile, GameScreen gameScreen, int initX, int initY, int initWidth, int initHeight) throws IOException {
-        super(spriteFile, gameScreen, initX, initY, initWidth, initHeight);
+    Player1(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
+        super(spriteFile, initX, initY, initWidth, initHeight);
     }
     public void keyTyped(KeyEvent e) {}
     public void keyPressed(KeyEvent e) {

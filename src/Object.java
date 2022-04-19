@@ -8,7 +8,7 @@ public class Object {
     private JLabel sprite;
     private int xPos, yPos, xVel, yVel, width, height;
     private int jump = 1;
-    Object(File spriteFile, GameScreen gameScreen, int initX, int initY, int initWidth, int initHeight, double g) throws IOException {
+    Object(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
         xPos = initX;
         yPos = initY;
         width = initWidth;
@@ -28,11 +28,6 @@ public class Object {
         yVel += 1;
     }
     public void checkCollision(Object reference) {
-        // 1. THIS collides with bottom of REFERENCE Object while going up
-        // 2. THIS collides with right of REFERENCE Object while going left
-        // 3. THIS collides with top of REFERENCE Object while going down
-        // 4. THIS collides with left of REFERENCE Object while going right
-        boolean[] collisions = {false, false, false, false};
         int minXThis = xPos + xVel;
         int maxXThis = xPos + width + xVel;
         int minYThis = yPos + height + yVel;
@@ -48,26 +43,18 @@ public class Object {
         || (minXThis <= minXReference && maxXThis > minXReference) ||
         (maxXThis < maxXReference && minXThis > minXReference);
         if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
-            collisions[2] = true;
             jump = 1;
             yPos += yVel - (minYThis - maxYReference);
             yVel = 0;
-        }
-        if(minYThis > minYReference && maxYThis < minYReference && yClip) {
-            yVel = minYReference - maxYThis;
-            collisions[0] = true;
+        } else if(minYThis > minYReference && maxYThis < minYReference && yClip) {
             if(yVel < 0) {
                 yVel = 0;
             }
-        }
-        if(maxXThis > maxXReference && minXThis == maxXReference && xClip) {
-            collisions[1] = true;
+        } else if(maxXThis > maxXReference && minXThis == maxXReference && xClip) {
             if(xVel < 0) {
                 xVel = 0;
             }
-        }
-        if(minXThis < minXReference && maxXThis == minXReference && xClip) {
-            collisions[3] = true;
+        } else if(minXThis < minXReference && maxXThis == minXReference && xClip) {
             if(xVel > 0) {
                 xVel = 0;
             }
