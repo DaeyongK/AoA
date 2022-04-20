@@ -10,8 +10,9 @@ public class GameScreen extends JPanel{
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
-        pl1 = new Player1(new File("images/Kaguya_Walking_One.png"),10, 100, 35, 100);
-        pl2 = new Player2(new File("images/Kaguya_Walking_One.png"), 1330, 100, 35, 100);
+        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 35, 100);
+        pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"), 1330, 100, 35, 100);
+        pl2.setACount(1);
         bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
         l1 = new Platform(new File("images/platform.png"), 250, 620, 200, 50);
         l2 = new Platform(new File("images/platform.png"), 600, 620, 200, 50);
@@ -40,6 +41,33 @@ public class GameScreen extends JPanel{
         while(true) {
             Thread.sleep(10);
             for(Player p : players) {
+                if(p.getXVel() > 0) {
+                    p.setACount(0);
+                    p.setDCount(p.getDCount() + 1);
+                    if(p.getOne() && p.getDCount() % 9 == 0) {
+                        p.changeSprite(p.getWalkTwoRight());
+                        p.setOne(false);
+                    } else if (!p.getOne() && p.getDCount() % 9 == 0){
+                        p.changeSprite(p.getWalkOneRight());
+                        p.setOne(true);
+                    }
+                } else if(p.getXVel() < 0){
+                    p.setDCount(0);
+                    p.setACount(p.getACount() + 1);
+                    if(p.getOne() && p.getACount() % 9 == 0) {
+                        p.changeSprite(p.getWalkTwoLeft());
+                        p.setOne(false);
+                    } else if (!p.getOne() && p.getACount() % 9 == 0){
+                        p.changeSprite(p.getWalkOneLeft());
+                        p.setOne(true);
+                    }
+                } else {
+                    if(p.getACount()==0) {
+                        p.changeSprite(p.getWalkOneRight());
+                    } else {
+                        p.changeSprite(p.getWalkOneLeft());
+                    }
+                }
                 p.checkCollision(bottom);
                 p.checkCollision(bl);
                 p.checkCollision(bt);

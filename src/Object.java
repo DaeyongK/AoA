@@ -16,7 +16,7 @@ public class Object {
         sprite = new JLabel(new ImageIcon(resizeImage(ImageIO.read(spriteFile), initWidth, initHeight)));
         sprite.setBounds(initX, initY, initWidth, initHeight);
     }
-    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+    public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
         BufferedImage newImage = new BufferedImage(resultingImage.getWidth(null), resultingImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = newImage.createGraphics();
@@ -62,6 +62,9 @@ public class Object {
     }
     public JLabel getSprite() {
         return sprite;
+    }
+    public void changeSprite(ImageIcon newSprite) {
+        sprite.setIcon(newSprite);
     }
     public void move(int x, int y) {
         sprite.setBounds(x, y, width, height);
