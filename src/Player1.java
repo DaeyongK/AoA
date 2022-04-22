@@ -14,7 +14,7 @@ public class Player1 extends Player {
         setOne(true);
     }
     public void keyTyped(KeyEvent e) {}
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) throws IOException {
         if (e.getKeyChar() == 'w' && getJump() > 0) {
             setYVelocity(getYVel()-25);
             subtractJump();
@@ -24,6 +24,8 @@ public class Player1 extends Player {
         } else if (e.getKeyChar() == 'd') {
             changeSprite(getWalkOneRight());
             setXVelocity(5);
+        } else if (e.getKeyChar() == 'q') {
+            setHealth(getHealth()-10);
         }
     }
     public void keyReleased(KeyEvent e) {

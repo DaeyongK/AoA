@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 public class GameScreen extends JPanel{
+    private static Object healthb1, healthb2, health1, health2;
     private Player1 pl1;
     private Player2 pl2;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
@@ -10,6 +11,10 @@ public class GameScreen extends JPanel{
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
+        healthb1 = new Object(new File("Images/healthbackground.png"), 50, 50, 300, 30);
+        healthb2 = new Object(new File("Images/healthbackground.png"), 1050, 50, 300, 30);
+        health1 = new Object(new File("Images/healthbar.png"), 50, 50, 300, 30);
+        health2 = new Object(new File("Images/healthbar.png"), 1050, 50, 300, 30);
         pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 35, 100);
         pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"), 1330, 100, 35, 100);
         pl2.setACount(1);
@@ -33,8 +38,18 @@ public class GameScreen extends JPanel{
         add(bl.getSprite());
         add(bt.getSprite());
         add(br.getSprite());
+        add(health1.getSprite());
+        add(health2.getSprite());
+        add(healthb1.getSprite());
+        add(healthb2.getSprite());
         setFocusable(true);
         addKeyListener(new MyKeyListener(pl1, pl2));
+    }
+    public static Object getHealth1() {
+        return health1;
+    }
+    public static Object getHealth2() {
+        return health2;
     }
     public void run() throws InterruptedException {
         Player[] players = {pl1, pl2};
