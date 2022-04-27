@@ -4,12 +4,24 @@ import java.io.File;
 import java.io.IOException;
 public class Player extends Object {
     private ImageIcon walkOneRight, walkOneLeft, walkTwoRight, walkTwoLeft, f1, f2, f3, f4, f1r, f2r, f3r, f4r;
-    private long aCount, dCount;
-    private int health;
+    private long aCount, dCount, startTime;
+    private int health, aniFrameOrder = 0;
     private boolean one, leftFacing, midAnimation, loveLetter;
     Player(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
         super(spriteFile, initX, initY, initWidth, initHeight);
         health = 300;
+    }
+    public void setStartTime() {
+        startTime = System.currentTimeMillis();
+    }
+    public long getStartTime() {
+        return startTime;
+    }
+    public void setAniFrameOrder(int afo) {
+        aniFrameOrder = afo;
+    }
+    public int getAniFrameOrder() {
+        return aniFrameOrder;
     }
     public void setLoveLetter(boolean ll) {loveLetter = ll;}
     public boolean getLoveLetter() {return loveLetter;}

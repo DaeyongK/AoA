@@ -7,9 +7,6 @@ public class GameScreen extends JPanel{
     private Player1 pl1;
     private Player2 pl2;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
-    private int aniFrameOrder = 0;
-    private long startTime;
-    private static boolean loveLetter;
     GameScreen() throws IOException {
         super();
         setLayout(null);
@@ -61,43 +58,43 @@ public class GameScreen extends JPanel{
             Thread.sleep(10);
             for(Player p : players) {
                 if(p.getLoveLetter()) {
-                    if(aniFrameOrder == 0) {
-                        startTime = System.currentTimeMillis();
+                    if(p.getAniFrameOrder() == 0) {
+                        p.setStartTime();
                         if(p.getLeftFacing()) {
                             p.changeSprite(p.getF1R());
                         } else {
                             p.changeSprite(p.getF1());
                         }
-                        aniFrameOrder++;
-                    } else if(aniFrameOrder == 1 && (System.currentTimeMillis() - startTime) > 75) {
+                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
+                    } else if(p.getAniFrameOrder() == 1 && (System.currentTimeMillis() - p.getStartTime()) > 75) {
                         if(p.getLeftFacing()) {
                             p.changeSprite(p.getF2R());
                         } else {
                             p.changeSprite(p.getF2());
                         }
-                        aniFrameOrder++;
-                    } else if(aniFrameOrder == 2 && (System.currentTimeMillis() - startTime) > 150) {
+                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
+                    } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
                         if(p.getLeftFacing()) {
                             p.changeSprite(p.getF3R());
                         } else {
                             p.changeSprite(p.getF3());
                         }
-                        aniFrameOrder++;
-                    } else if(aniFrameOrder == 3 && (System.currentTimeMillis() - startTime) > 225) {
+                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
+                    } else if(p.getAniFrameOrder() == 3 && (System.currentTimeMillis() - p.getStartTime()) > 225) {
                         if(p.getLeftFacing()) {
                             p.changeSprite(p.getF4R());
                         } else {
                             p.changeSprite(p.getF4());
                         }
-                        aniFrameOrder++;
-                    } else if(aniFrameOrder == 4 && (System.currentTimeMillis() - startTime) > 300) {
+                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
+                    } else if(p.getAniFrameOrder() == 4 && (System.currentTimeMillis() - p.getStartTime()) > 300) {
                         if(p.getLeftFacing()) {
                             p.changeSprite(p.getWalkOneLeft());
                         } else {
                             p.changeSprite(p.getWalkOneRight());
                         }
                         p.setLoveLetter(false);
-                        aniFrameOrder = 0;
+                        p.setAniFrameOrder(0);;
                     }
                 } else {
                     if(p.getXVel() > 0) {
