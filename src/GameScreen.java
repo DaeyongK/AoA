@@ -7,6 +7,9 @@ public class GameScreen extends JPanel{
     private Player1 pl1;
     private Player2 pl2;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
+    private int aniFrameOrder = 0;
+    private long startTime;
+    private static boolean loveLetter;
     GameScreen() throws IOException {
         super();
         setLayout(null);
@@ -53,34 +56,76 @@ public class GameScreen extends JPanel{
     }
     public void run() throws InterruptedException {
         Player[] players = {pl1, pl2};
-        while(true) {
+        boolean running = true;
+        while(running) {
             Thread.sleep(10);
             for(Player p : players) {
-                if(p.getXVel() > 0) {
-                    p.setACount(0);
-                    p.setDCount(p.getDCount() + 1);
-                    if(p.getOne() && p.getDCount() % 9 == 0) {
-                        p.changeSprite(p.getWalkTwoRight());
-                        p.setOne(false);
-                    } else if (!p.getOne() && p.getDCount() % 9 == 0){
-                        p.changeSprite(p.getWalkOneRight());
-                        p.setOne(true);
-                    }
-                } else if(p.getXVel() < 0){
-                    p.setDCount(0);
-                    p.setACount(p.getACount() + 1);
-                    if(p.getOne() && p.getACount() % 9 == 0) {
-                        p.changeSprite(p.getWalkTwoLeft());
-                        p.setOne(false);
-                    } else if (!p.getOne() && p.getACount() % 9 == 0){
-                        p.changeSprite(p.getWalkOneLeft());
-                        p.setOne(true);
+                if(p.getLoveLetter()) {
+                    if(aniFrameOrder == 0) {
+                        startTime = System.currentTimeMillis();
+                        if(p.getLeftFacing()) {
+                            p.changeSprite(p.getF1R());
+                        } else {
+                            p.changeSprite(p.getF1());
+                        }
+                        aniFrameOrder++;
+                    } else if(aniFrameOrder == 1 && (System.currentTimeMillis() - startTime) > 75) {
+                        if(p.getLeftFacing()) {
+                            p.changeSprite(p.getF2R());
+                        } else {
+                            p.changeSprite(p.getF2());
+                        }
+                        aniFrameOrder++;
+                    } else if(aniFrameOrder == 2 && (System.currentTimeMillis() - startTime) > 150) {
+                        if(p.getLeftFacing()) {
+                            p.changeSprite(p.getF3R());
+                        } else {
+                            p.changeSprite(p.getF3());
+                        }
+                        aniFrameOrder++;
+                    } else if(aniFrameOrder == 3 && (System.currentTimeMillis() - startTime) > 225) {
+                        if(p.getLeftFacing()) {
+                            p.changeSprite(p.getF4R());
+                        } else {
+                            p.changeSprite(p.getF4());
+                        }
+                        aniFrameOrder++;
+                    } else if(aniFrameOrder == 4 && (System.currentTimeMillis() - startTime) > 300) {
+                        if(p.getLeftFacing()) {
+                            p.changeSprite(p.getWalkOneLeft());
+                        } else {
+                            p.changeSprite(p.getWalkOneRight());
+                        }
+                        p.setLoveLetter(false);
+                        aniFrameOrder = 0;
                     }
                 } else {
-                    if(p.getACount()==0) {
-                        p.changeSprite(p.getWalkOneRight());
+                    if(p.getXVel() > 0) {
+                        p.setACount(0);
+                        p.setDCount(p.getDCount() + 1);
+                        if(p.getOne() && p.getDCount() % 9 == 0) {
+                            p.changeSprite(p.getWalkTwoRight());
+                            p.setOne(false);
+                        } else if (!p.getOne() && p.getDCount() % 9 == 0){
+                            p.changeSprite(p.getWalkOneRight());
+                            p.setOne(true);
+                        }
+                    } else if(p.getXVel() < 0){
+                        p.setDCount(0);
+                        p.setACount(p.getACount() + 1);
+                        if(p.getOne() && p.getACount() % 9 == 0) {
+                            p.changeSprite(p.getWalkTwoLeft());
+                            p.setOne(false);
+                        } else if (!p.getOne() && p.getACount() % 9 == 0){
+                            p.changeSprite(p.getWalkOneLeft());
+                            p.setOne(true);
+                        }
                     } else {
-                        p.changeSprite(p.getWalkOneLeft());
+                        if(p.getACount()==0) {
+                            p.changeSprite(p.getWalkOneRight());
+                        } else {
+                            p.changeSprite(p.getWalkOneLeft());
+                        }
                     }
                 }
                 p.checkCollision(bottom);
