@@ -2,11 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class GameScreen extends JPanel{
     private static Object healthb1, healthb2, health1, health2;
     private Player1 pl1;
     private Player2 pl2;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
+    private ArrayList<Object> allObjects = new ArrayList<Object>();
+    private ArrayList<Projectile> allProjectiles = new ArrayList<Projectile>();
     GameScreen() throws IOException {
         super();
         setLayout(null);
@@ -15,8 +20,8 @@ public class GameScreen extends JPanel{
         healthb2 = new Object(new File("Images/healthbackground.png"), 1050, 50, 300, 30);
         health1 = new Object(new File("Images/healthbar.png"), 50, 50, 300, 30);
         health2 = new Object(new File("Images/healthbar.png"), 1050, 50, 300, 30);
-        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 35, 100);
-        pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"), 1330, 100, 35, 100);
+        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 30, 100);
+        pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"), 1330, 100, 30, 100);
         pl2.setACount(1);
         bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
         l1 = new Platform(new File("images/platform.png"), 250, 620, 200, 50);
@@ -42,6 +47,15 @@ public class GameScreen extends JPanel{
         add(health2.getSprite());
         add(healthb1.getSprite());
         add(healthb2.getSprite());
+        allObjects.add(bottom);
+        allObjects.add(l1);
+        allObjects.add(l2);
+        allObjects.add(l3);
+        allObjects.add(h1);
+        allObjects.add(h2);
+        allObjects.add(bl);
+        allObjects.add(bt);
+        allObjects.add(br);
         setFocusable(true);
         addKeyListener(new MyKeyListener(pl1, pl2));
     }
@@ -51,51 +65,60 @@ public class GameScreen extends JPanel{
     public static Object getHealth2() {
         return health2;
     }
-    public void run() throws InterruptedException {
+    public void loveLetter(Player p) throws IOException {
+        if(p.getAniFrameOrder() == 0) {
+            p.setStartTime();
+            if(p.getLeftFacing()) {
+                p.changeSprite(p.getF1R());
+            } else {
+                p.changeSprite(p.getF1());
+            }
+            p.setAniFrameOrder(p.getAniFrameOrder()+1);
+        } else if(p.getAniFrameOrder() == 1 && (System.currentTimeMillis() - p.getStartTime()) > 75) {
+            if(p.getLeftFacing()) {
+                p.changeSprite(p.getF2R());
+            } else {
+                p.changeSprite(p.getF2());
+            }
+            p.setAniFrameOrder(p.getAniFrameOrder()+1);
+        } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
+            if(p.getLeftFacing()) {
+                p.changeSprite(p.getF3R());
+                Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()-100, p.getY()+30, 85, 15, -15, 0, 10);
+                add(letter.getSprite());
+                allProjectiles.add(letter);
+            } else {
+                p.changeSprite(p.getF3());
+                Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()+50, p.getY()+30, 85, 15, 15, 0, 10);
+                add(letter.getSprite());
+                allProjectiles.add(letter);
+            }
+            p.setAniFrameOrder(p.getAniFrameOrder()+1);
+        } else if(p.getAniFrameOrder() == 3 && (System.currentTimeMillis() - p.getStartTime()) > 225) {
+            if(p.getLeftFacing()) {
+                p.changeSprite(p.getF4R());
+            } else {
+                p.changeSprite(p.getF4());
+            }
+            p.setAniFrameOrder(p.getAniFrameOrder()+1);
+        } else if(p.getAniFrameOrder() == 4 && (System.currentTimeMillis() - p.getStartTime()) > 300) {
+            if(p.getLeftFacing()) {
+                p.changeSprite(p.getWalkOneLeft());
+            } else {
+                p.changeSprite(p.getWalkOneRight());
+            }
+            p.setLoveLetter(false);
+            p.setAniFrameOrder(0);;
+        }
+    }
+    public void run() throws InterruptedException, IOException {
         Player[] players = {pl1, pl2};
         boolean running = true;
         while(running) {
             Thread.sleep(10);
             for(Player p : players) {
                 if(p.getLoveLetter()) {
-                    if(p.getAniFrameOrder() == 0) {
-                        p.setStartTime();
-                        if(p.getLeftFacing()) {
-                            p.changeSprite(p.getF1R());
-                        } else {
-                            p.changeSprite(p.getF1());
-                        }
-                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
-                    } else if(p.getAniFrameOrder() == 1 && (System.currentTimeMillis() - p.getStartTime()) > 75) {
-                        if(p.getLeftFacing()) {
-                            p.changeSprite(p.getF2R());
-                        } else {
-                            p.changeSprite(p.getF2());
-                        }
-                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
-                    } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
-                        if(p.getLeftFacing()) {
-                            p.changeSprite(p.getF3R());
-                        } else {
-                            p.changeSprite(p.getF3());
-                        }
-                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
-                    } else if(p.getAniFrameOrder() == 3 && (System.currentTimeMillis() - p.getStartTime()) > 225) {
-                        if(p.getLeftFacing()) {
-                            p.changeSprite(p.getF4R());
-                        } else {
-                            p.changeSprite(p.getF4());
-                        }
-                        p.setAniFrameOrder(p.getAniFrameOrder()+1);;
-                    } else if(p.getAniFrameOrder() == 4 && (System.currentTimeMillis() - p.getStartTime()) > 300) {
-                        if(p.getLeftFacing()) {
-                            p.changeSprite(p.getWalkOneLeft());
-                        } else {
-                            p.changeSprite(p.getWalkOneRight());
-                        }
-                        p.setLoveLetter(false);
-                        p.setAniFrameOrder(0);;
-                    }
+                    loveLetter(p);
                 } else {
                     if(p.getXVel() > 0) {
                         p.setACount(0);
@@ -125,15 +148,26 @@ public class GameScreen extends JPanel{
                         }
                     }
                 }
-                p.checkCollision(bottom);
-                p.checkCollision(bl);
-                p.checkCollision(bt);
-                p.checkCollision(br);
-                p.checkCollision(l1);
-                p.checkCollision(l2);
-                p.checkCollision(l3);
-                p.checkCollision(h1);
-                p.checkCollision(h2);
+                for(Object o : allObjects) {
+                    p.checkCollision(o);
+                }
+                Iterator<Projectile> itr = allProjectiles.iterator();
+                while(itr.hasNext()) {
+                    Projectile proj = itr.next();
+                    for(Object o : allObjects) {
+                        if(proj.checkCollision(o)) {
+                            allProjectiles.remove(proj);
+                            remove(proj.getSprite());
+                            itr = allProjectiles.iterator();
+                        }
+                    }
+                    if(p.checkCollision(proj)) {
+                        p.setHealth(p.getHealth()-proj.getDamage());
+                        allProjectiles.remove(proj);
+                        remove(proj.getSprite());
+                        itr = allProjectiles.iterator();
+                    }
+                }
                 if(p==pl1) {
                     p.checkCollision(pl2);
                 } else {
@@ -143,6 +177,11 @@ public class GameScreen extends JPanel{
                 p.setX(p.getX()+p.getXVel());
                 p.setY(p.getY()+p.getYVel());
                 p.move(p.getX(), p.getY());
+                for(Projectile proj : allProjectiles) {
+                    proj.setX(proj.getX() + proj.getXVel());
+                    proj.setY(proj.getY() + proj.getYVel());
+                    proj.move(proj.getX(), proj.getY());
+                }
             }
         }
     }

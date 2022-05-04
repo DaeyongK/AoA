@@ -6,7 +6,7 @@ public class Player extends Object {
     private ImageIcon walkOneRight, walkOneLeft, walkTwoRight, walkTwoLeft, f1, f2, f3, f4, f1r, f2r, f3r, f4r;
     private long aCount, dCount, startTime;
     private int health, aniFrameOrder = 0;
-    private boolean one, leftFacing, midAnimation, loveLetter;
+    private boolean one, leftFacing, loveLetter;
     Player(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
         super(spriteFile, initX, initY, initWidth, initHeight);
         health = 300;
@@ -25,9 +25,7 @@ public class Player extends Object {
     }
     public void setLoveLetter(boolean ll) {loveLetter = ll;}
     public boolean getLoveLetter() {return loveLetter;}
-    public boolean getMidAnimation() {return midAnimation;}
     public boolean getLeftFacing() {return leftFacing;}
-    public void setMidAnimation(boolean ma) {midAnimation = ma;};
     public boolean getOne() {
         return one;
     }
@@ -96,64 +94,6 @@ public class Player extends Object {
             GameScreen.getHealth1().getSprite().setBounds(GameScreen.getHealth1().getX(), GameScreen.getHealth1().getY(), getHealth(), 30);
         } else {
             GameScreen.getHealth2().getSprite().setBounds(1350-getHealth(), GameScreen.getHealth2().getY(), getHealth(), 30);
-        }
-    }
-    public void loveLetter() throws IOException {
-        boolean animation = true;
-        int aniFrameOrder = 0;
-        long start = System.currentTimeMillis();
-        while(animation) {
-            int change = (int) (System.currentTimeMillis() - start) % 150;
-            if(change==0) {
-                if(aniFrameOrder == 0) {
-                    System.out.println(0);
-                    aniFrameOrder++;
-                    if(leftFacing) {
-                        System.out.println("LEFT");
-                        changeSprite(getF1R());
-                    } else {
-                        changeSprite(getF1());
-                    }
-                } else if(aniFrameOrder == 1) {
-                    System.out.println(1);
-                    aniFrameOrder++;
-                    if(leftFacing) {
-                        System.out.println("LEFT");
-                        changeSprite(getF2R());
-                    } else {
-                        changeSprite(getF2());
-                    }
-                } else if(aniFrameOrder == 2) {
-                    System.out.println(2);
-                    aniFrameOrder++;
-                    if(leftFacing) {
-                        System.out.println("LEFT");
-                        changeSprite(getF3R());
-                    } else {
-                        changeSprite(getF3());
-                    }
-                } else if(aniFrameOrder == 3) {
-                    System.out.println(3);
-                    aniFrameOrder++;
-                    if(leftFacing) {
-                        System.out.println("LEFT");
-                        changeSprite(getF4R());
-                    } else {
-                        changeSprite(getF4());
-                    }
-                } else if(aniFrameOrder == 4) {
-                    System.out.println(4);
-                    if(leftFacing) {
-                        System.out.println("LEFT");
-                        changeSprite(getWalkOneLeft());
-                    } else {
-                        changeSprite(getWalkOneRight());
-                    }
-                    animation = false;
-                    setMidAnimation(false);
-                }
-            }
-            getSprite().setBounds(getX(), getY(), getWidth(), getHeight());
         }
     }
 }

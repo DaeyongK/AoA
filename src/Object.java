@@ -16,6 +16,10 @@ public class Object {
         sprite = new JLabel(new ImageIcon(resizeImage(ImageIO.read(spriteFile), initWidth, initHeight)));
         sprite.setBounds(initX, initY, initWidth, initHeight);
     }
+    public ImageIcon getIcon(File f) throws IOException {
+        BufferedImage b = ImageIO.read(f);
+        return new ImageIcon(resizeImage(b, (100 * b.getWidth() / b.getHeight()), 100));
+    }
     public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
         BufferedImage newImage = new BufferedImage(resultingImage.getWidth(null), resultingImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -27,7 +31,7 @@ public class Object {
     public void gravityCalc() {
         yVel += 1;
     }
-    public void checkCollision(Object reference) {
+    public boolean checkCollision(Object reference) {
         int minXThis = xPos + xVel;
         int maxXThis = xPos + width + xVel;
         int minYThis = yPos + height + yVel;
@@ -46,25 +50,31 @@ public class Object {
             jump = 1;
             yPos += yVel - (minYThis - maxYReference);
             yVel = 0;
+            return true;
         } else if(minYThis > minYReference && maxYThis < minYReference && yClip) {
             if(yVel < 0) {
                 yVel = 0;
             }
+            return true;
         } else if(maxXThis > maxXReference && minXThis == maxXReference && xClip) {
             if(xVel < 0) {
                 xVel = 0;
             }
+            return true;
         } else if(minXThis < minXReference && maxXThis == minXReference && xClip) {
             if(xVel > 0) {
                 xVel = 0;
             }
+            return true;
         }
+        return false;
     }
     public JLabel getSprite() {
         return sprite;
     }
     public void changeSprite(ImageIcon newSprite) {
         sprite.setIcon(newSprite);
+        sprite.setPreferredSize(new Dimension(newSprite.getIconWidth(), newSprite.getIconHeight()));
     }
     public void move(int x, int y) {
         sprite.setBounds(x, y, width, height);
