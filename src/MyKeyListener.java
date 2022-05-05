@@ -1,5 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+
 public class MyKeyListener implements KeyListener {
     Player1 p1;
     Player2 p2;
@@ -12,8 +14,14 @@ public class MyKeyListener implements KeyListener {
         p2.keyTyped(e);
     }
     public void keyPressed(KeyEvent e) {
-        p1.keyPressed(e);
-        p2.keyPressed(e);
+        try {
+            p1.keyPressed(e);
+        } catch (IOException ex) {}
+        try {
+            p2.keyPressed(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     public void keyReleased(KeyEvent e) {
         p1.keyReleased(e);
