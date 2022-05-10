@@ -14,6 +14,7 @@ public class GameScreen extends JPanel{
     private ArrayList<Projectile> allProjectiles = new ArrayList<Projectile>();
     GameScreen() throws IOException {
         super();
+        System.out.println("Creating GameScreen");
         setLayout(null);
         setBackground(new Color(255,255,255));
         healthb1 = new Object(new File("Images/healthbackground.png"), 50, 50, 300, 30);
@@ -77,42 +78,31 @@ public class GameScreen extends JPanel{
         } else if(p.getAniFrameOrder() == 1 && (System.currentTimeMillis() - p.getStartTime()) > 75) {
             if(p.getLeftFacing()) {
                 p.changeSprite(p.getF2R());
-            } else {
-                p.changeSprite(p.getF2());
-            }
-            p.setAniFrameOrder(p.getAniFrameOrder()+1);
-        } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
-            if(p.getLeftFacing()) {
-                p.changeSprite(p.getF3R());
                 Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()-100, p.getY()+30, 85, 15, -15, 0, 10);
                 add(letter.getSprite());
                 allProjectiles.add(letter);
             } else {
-                p.changeSprite(p.getF3());
+                p.changeSprite(p.getF2());
                 Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()+50, p.getY()+30, 85, 15, 15, 0, 10);
                 add(letter.getSprite());
                 allProjectiles.add(letter);
             }
             p.setAniFrameOrder(p.getAniFrameOrder()+1);
-        } else if(p.getAniFrameOrder() == 3 && (System.currentTimeMillis() - p.getStartTime()) > 225) {
-            if(p.getLeftFacing()) {
-                p.changeSprite(p.getF4R());
-            } else {
-                p.changeSprite(p.getF4());
-            }
-            p.setAniFrameOrder(p.getAniFrameOrder()+1);
-        } else if(p.getAniFrameOrder() == 4 && (System.currentTimeMillis() - p.getStartTime()) > 300) {
-            if(p.getLeftFacing()) {
+        } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
+            if (p.getLeftFacing()) {
                 p.changeSprite(p.getWalkOneLeft());
             } else {
                 p.changeSprite(p.getWalkOneRight());
             }
             p.setLoveLetter(false);
-            p.setAniFrameOrder(0);;
+            p.setAniFrameOrder(0);
         }
     }
-    public void run() throws InterruptedException, IOException {
+    public String run() throws InterruptedException, IOException {
+        System.out.println("Running");
+        requestFocus();
         Player[] players = {pl1, pl2};
+        String winner = "None";
         boolean running = true;
         while(running) {
             Thread.sleep(10);
@@ -158,6 +148,7 @@ public class GameScreen extends JPanel{
                         if(proj.checkCollision(o)) {
                             allProjectiles.remove(proj);
                             remove(proj.getSprite());
+                            repaint();
                             itr = allProjectiles.iterator();
                         }
                     }
@@ -165,6 +156,7 @@ public class GameScreen extends JPanel{
                         p.setHealth(p.getHealth()-proj.getDamage());
                         allProjectiles.remove(proj);
                         remove(proj.getSprite());
+                        repaint();
                         itr = allProjectiles.iterator();
                     }
                 }
@@ -182,7 +174,16 @@ public class GameScreen extends JPanel{
                     proj.setY(proj.getY() + proj.getYVel());
                     proj.move(proj.getX(), proj.getY());
                 }
+                if(p.getHealth() <= 0) {
+                    running = false;
+                    if(p == pl1) {
+                        winner = "Player 2";
+                    } else {
+                        winner = "Player 1";
+                    }
+                }
             }
         }
+        return winner;
     }
 }

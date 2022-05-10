@@ -46,22 +46,22 @@ public class Object {
         boolean yClip = (maxXThis >= maxXReference && minXThis < maxXReference)
         || (minXThis <= minXReference && maxXThis > minXReference) ||
         (maxXThis < maxXReference && minXThis > minXReference);
-        if(maxYThis < maxYReference && minYThis > maxYReference && yClip) {
+        if(maxYThis < maxYReference && minYThis >= maxYReference && yClip && !(minYThis >= minYReference)) {
             jump = 1;
-            yPos += yVel - (minYThis - maxYReference);
+            yPos += yVel - (minYThis - maxYReference) + 1;
             yVel = 0;
             return true;
-        } else if(minYThis > minYReference && maxYThis < minYReference && yClip) {
+        } else if(minYThis > minYReference && maxYThis <= minYReference && yClip) {
             if(yVel < 0) {
                 yVel = 0;
             }
             return true;
-        } else if(maxXThis > maxXReference && minXThis == maxXReference && xClip) {
+        } else if(maxXThis > maxXReference && minXThis <= maxXReference && xClip) {
             if(xVel < 0) {
                 xVel = 0;
             }
             return true;
-        } else if(minXThis < minXReference && maxXThis == minXReference && xClip) {
+        } else if(minXThis < minXReference && maxXThis >= minXReference && xClip) {
             if(xVel > 0) {
                 xVel = 0;
             }
