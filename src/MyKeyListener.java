@@ -9,9 +9,14 @@ public class MyKeyListener implements KeyListener {
         p1 = pl1;
         p2 = pl2;
     }
+    MyKeyListener(Player1 pl1) {
+        p1 = pl1;
+    }
     public void keyTyped(KeyEvent e) {
         p1.keyTyped(e);
-        p2.keyTyped(e);
+        if(p2!=null) {
+            p2.keyTyped(e);
+        }
     }
     public void keyPressed(KeyEvent e) {
         try {
@@ -19,12 +24,12 @@ public class MyKeyListener implements KeyListener {
         } catch (IOException ex) {}
         try {
             p2.keyPressed(e);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        } catch (IOException ex) {}
     }
     public void keyReleased(KeyEvent e) {
         p1.keyReleased(e);
-        p2.keyReleased(e);
+        if(p2!=null) {
+            p2.keyReleased(e);
+        }
     }
 }

@@ -96,4 +96,35 @@ public class Player extends Object {
             GameScreen.getHealth2().getSprite().setBounds(1350-getHealth(), GameScreen.getHealth2().getY(), getHealth(), 30);
         }
     }
+    public Projectile loveLetter() throws IOException {
+        Projectile letter = null;
+        if(getAniFrameOrder() == 0) {
+            setStartTime();
+            if(getLeftFacing()) {
+                changeSprite(getF1R());
+            } else {
+                changeSprite(getF1());
+            }
+            setAniFrameOrder(getAniFrameOrder()+1);
+        } else if(getAniFrameOrder() == 1 && (System.currentTimeMillis() - getStartTime()) > 75) {
+            if(getLeftFacing()) {
+                changeSprite(getF2R());
+                letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), getX()-100, getY()+30, 85, 15, -15, 0, 10);
+            } else {
+                changeSprite(getF2());
+                letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), getX()+50, getY()+30, 85, 15, 15, 0, 10);
+            }
+            setAniFrameOrder(getAniFrameOrder()+1);
+        } else if(getAniFrameOrder() == 2 && (System.currentTimeMillis() - getStartTime()) > 150) {
+            letter = null;
+            if (getLeftFacing()) {
+                changeSprite(getWalkOneLeft());
+            } else {
+                changeSprite(getWalkOneRight());
+            }
+            setLoveLetter(false);
+            setAniFrameOrder(0);
+        }
+        return letter;
+    }
 }

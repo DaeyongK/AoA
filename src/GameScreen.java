@@ -14,7 +14,6 @@ public class GameScreen extends JPanel{
     private ArrayList<Projectile> allProjectiles = new ArrayList<Projectile>();
     GameScreen() throws IOException {
         super();
-        System.out.println("Creating GameScreen");
         setLayout(null);
         setBackground(new Color(255,255,255));
         healthb1 = new Object(new File("Images/healthbackground.png"), 50, 50, 300, 30);
@@ -66,40 +65,7 @@ public class GameScreen extends JPanel{
     public static Object getHealth2() {
         return health2;
     }
-    public void loveLetter(Player p) throws IOException {
-        if(p.getAniFrameOrder() == 0) {
-            p.setStartTime();
-            if(p.getLeftFacing()) {
-                p.changeSprite(p.getF1R());
-            } else {
-                p.changeSprite(p.getF1());
-            }
-            p.setAniFrameOrder(p.getAniFrameOrder()+1);
-        } else if(p.getAniFrameOrder() == 1 && (System.currentTimeMillis() - p.getStartTime()) > 75) {
-            if(p.getLeftFacing()) {
-                p.changeSprite(p.getF2R());
-                Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()-100, p.getY()+30, 85, 15, -15, 0, 10);
-                add(letter.getSprite());
-                allProjectiles.add(letter);
-            } else {
-                p.changeSprite(p.getF2());
-                Projectile letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), p.getX()+50, p.getY()+30, 85, 15, 15, 0, 10);
-                add(letter.getSprite());
-                allProjectiles.add(letter);
-            }
-            p.setAniFrameOrder(p.getAniFrameOrder()+1);
-        } else if(p.getAniFrameOrder() == 2 && (System.currentTimeMillis() - p.getStartTime()) > 150) {
-            if (p.getLeftFacing()) {
-                p.changeSprite(p.getWalkOneLeft());
-            } else {
-                p.changeSprite(p.getWalkOneRight());
-            }
-            p.setLoveLetter(false);
-            p.setAniFrameOrder(0);
-        }
-    }
     public String run() throws InterruptedException, IOException {
-        System.out.println("Running");
         requestFocus();
         Player[] players = {pl1, pl2};
         String winner = "None";
@@ -108,7 +74,11 @@ public class GameScreen extends JPanel{
             Thread.sleep(10);
             for(Player p : players) {
                 if(p.getLoveLetter()) {
-                    loveLetter(p);
+                    Projectile l = p.loveLetter();
+                    if(l!=null) {
+                        add(l.getSprite());
+                        allProjectiles.add(l);
+                    }
                 } else {
                     if(p.getXVel() > 0) {
                         p.setACount(0);
@@ -144,6 +114,13 @@ public class GameScreen extends JPanel{
                 Iterator<Projectile> itr = allProjectiles.iterator();
                 while(itr.hasNext()) {
                     Projectile proj = itr.next();
+                    if(p.checkCollision(proj)) {
+                        p.setHealth(p.getHealth()-proj.getDamage());
+                        allProjectiles.remove(proj);
+                        remove(proj.getSprite());
+                        repaint();
+                        itr = allProjectiles.iterator();
+                    }
                     for(Object o : allObjects) {
                         if(proj.checkCollision(o)) {
                             allProjectiles.remove(proj);
@@ -151,13 +128,6 @@ public class GameScreen extends JPanel{
                             repaint();
                             itr = allProjectiles.iterator();
                         }
-                    }
-                    if(p.checkCollision(proj)) {
-                        p.setHealth(p.getHealth()-proj.getDamage());
-                        allProjectiles.remove(proj);
-                        remove(proj.getSprite());
-                        repaint();
-                        itr = allProjectiles.iterator();
                     }
                 }
                 if(p==pl1) {

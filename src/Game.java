@@ -25,6 +25,8 @@ public class Game {
 				frame.setContentPane(contentPane);
 				frame.revalidate();
 				contentPane.run();
+			} else if(state.equals("EXIT")) {
+				System.exit(0);
 			}
 		}
 
