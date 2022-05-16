@@ -4,7 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 class CircularButton extends JButton implements ActionListener {
     private String type;
-    CircularButton(int xCoord, int yCoord, int r, Color c, Color bc, String t) {
+    CircularButton(int xCoord, int yCoord, int r, Color c, Color bc,
+    String t) {
         super();
         type = t;
         this.setBounds(xCoord, yCoord, r, r);

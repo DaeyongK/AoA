@@ -8,21 +8,28 @@ public class Object {
     private JLabel sprite;
     private int xPos, yPos, xVel, yVel, width, height;
     private int jump = 1;
-    Object(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
+    Object(File spriteFile, int initX, int initY, int initWidth,
+    int initHeight) throws IOException {
         xPos = initX;
         yPos = initY;
         width = initWidth;
         height = initHeight;
-        sprite = new JLabel(new ImageIcon(resizeImage(ImageIO.read(spriteFile), initWidth, initHeight)));
+        sprite = new JLabel(new ImageIcon(resizeImage(
+        ImageIO.read(spriteFile), initWidth, initHeight)));
         sprite.setBounds(initX, initY, initWidth, initHeight);
     }
     public ImageIcon getIcon(File f) throws IOException {
         BufferedImage b = ImageIO.read(f);
-        return new ImageIcon(resizeImage(b, (100 * b.getWidth() / b.getHeight()), 100));
+        return new ImageIcon(resizeImage(b,
+        (100 * b.getWidth() / b.getHeight()), 100));
     }
-    public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-        BufferedImage newImage = new BufferedImage(resultingImage.getWidth(null), resultingImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+    public BufferedImage resizeImage(BufferedImage originalImage,
+        int targetWidth, int targetHeight) {
+        Image resultingImage = originalImage.getScaledInstance(
+        targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        BufferedImage newImage = new BufferedImage(
+        resultingImage.getWidth(null),
+        resultingImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = newImage.createGraphics();
         g.drawImage(resultingImage, 0, 0, null);
         g.dispose();
@@ -46,22 +53,26 @@ public class Object {
         boolean yClip = (maxXThis >= maxXReference && minXThis < maxXReference)
         || (minXThis <= minXReference && maxXThis > minXReference) ||
         (maxXThis < maxXReference && minXThis > minXReference);
-        if(maxYThis < maxYReference && minYThis >= maxYReference && yClip && !(minYThis >= minYReference)) {
+        if(maxYThis < maxYReference && minYThis >= maxYReference && yClip &&
+        !(minYThis >= minYReference)) {
             jump = 1;
             yPos += yVel - (minYThis - maxYReference) + 1;
             yVel = 0;
             return true;
-        } else if(minYThis > minYReference && maxYThis <= minYReference && yClip) {
+        } else if(minYThis > minYReference && maxYThis <= minYReference
+        && yClip) {
             if(yVel < 0) {
                 yVel = 0;
             }
             return true;
-        } else if(maxXThis > maxXReference && minXThis <= maxXReference && xClip) {
+        } else if(maxXThis > maxXReference && minXThis <= maxXReference
+        && xClip) {
             if(xVel < 0) {
                 xVel = 0;
             }
             return true;
-        } else if(minXThis < minXReference && maxXThis >= minXReference && xClip) {
+        } else if(minXThis < minXReference && maxXThis >= minXReference
+        && xClip) {
             if(xVel > 0) {
                 xVel = 0;
             }
@@ -74,7 +85,8 @@ public class Object {
     }
     public void changeSprite(ImageIcon newSprite) {
         sprite.setIcon(newSprite);
-        sprite.setPreferredSize(new Dimension(newSprite.getIconWidth(), newSprite.getIconHeight()));
+        sprite.setPreferredSize(new Dimension(newSprite.getIconWidth(),
+        newSprite.getIconHeight()));
     }
     public void move(int x, int y) {
         sprite.setBounds(x, y, width, height);

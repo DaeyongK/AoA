@@ -16,23 +16,39 @@ public class GameScreen extends JLayeredPane {
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
-        backgroundImage = new Object(new File("Images/backgroundSprite.png"), 0, 0, 1400, 950).getSprite();
-        healthb1 = new Object(new File("Images/healthbackground.png"), 50, 50, 300, 30);
-        healthb2 = new Object(new File("Images/healthbackground.png"), 1050, 50, 300, 30);
-        health1 = new Object(new File("Images/healthbar.png"), 50, 50, 300, 30);
-        health2 = new Object(new File("Images/healthbar.png"), 1050, 50, 300, 30);
-        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 30, 100);
-        pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"), 1330, 100, 30, 100);
+        backgroundImage = new Object(new File("Images/backgroundSprite.png"),
+        0, 0, 1400, 950).getSprite();
+        healthb1 = new Object(new File("Images/healthbackground.png"),
+        50, 50, 300, 30);
+        healthb2 = new Object(new File("Images/healthbackground.png"),
+        1050, 50, 300, 30);
+        health1 = new Object(new File("Images/healthbar.png"),
+        50, 50, 300, 30);
+        health2 = new Object(new File("Images/healthbar.png"),
+        1050, 50, 300, 30);
+        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),
+        10, 100, 30, 100);
+        pl2 = new Player2(new File("Images/Kaguya/Kaguya_Walking_One.png"),
+        1330, 100, 30, 100);
         pl2.setACount(1);
-        bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
-        l1 = new Platform(new File("images/platform.png"), 250, 620, 200, 50);
-        l2 = new Platform(new File("images/platform.png"), 600, 620, 200, 50);
-        l3 = new Platform(new File("images/platform.png"), 950, 620, 200, 50);
-        h1 = new Platform(new File("images/platform.png"), 300, 380, 300, 50);
-        h2 = new Platform(new File("images/platform.png"), 800, 380, 300, 50);
-        bl = new Platform(new File("images/bound.png"), -100, -100, 100, 1500);
-        bt = new Platform(new File("images/bound.png"), -100, -100, 1500, 100);
-        br = new Platform(new File("images/bound.png"), 1400, -100, 100, 1500);
+        bottom = new Platform(new File("images/platform.png"),
+        0, 825, 1400, 100);
+        l1 = new Platform(new File("images/platform.png"),
+        250, 620, 200, 50);
+        l2 = new Platform(new File("images/platform.png"),
+        600, 620, 200, 50);
+        l3 = new Platform(new File("images/platform.png"),
+        950, 620, 200, 50);
+        h1 = new Platform(new File("images/platform.png"),
+        300, 380, 300, 50);
+        h2 = new Platform(new File("images/platform.png"),
+        800, 380, 300, 50);
+        bl = new Platform(new File("images/bound.png"),
+        -100, -100, 100, 1500);
+        bt = new Platform(new File("images/bound.png"),
+        -100, -100, 1500, 100);
+        br = new Platform(new File("images/bound.png"),
+        1400, -100, 100, 1500);
         add(pl1.getSprite());
         add(pl2.getSprite());
         add(bottom.getSprite());

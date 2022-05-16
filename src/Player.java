@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 public class Player extends Object {
-    private ImageIcon walkOneRight, walkOneLeft, walkTwoRight, walkTwoLeft, f1, f2, f3, f1r, f2r, f3r;
+    private ImageIcon walkOneRight, walkOneLeft, walkTwoRight,
+    walkTwoLeft, f1, f2, f1r, f2r;
     private long aCount, dCount, startTime;
     private int health, aniFrameOrder = 0;
     private boolean one, leftFacing, loveLetter;
-    Player(File spriteFile, int initX, int initY, int initWidth, int initHeight) throws IOException {
+    Player(File spriteFile, int initX, int initY, int initWidth,
+    int initHeight) throws IOException {
         super(spriteFile, initX, initY, initWidth, initHeight);
         health = 300;
     }
@@ -82,9 +84,12 @@ public class Player extends Object {
     public void setHealth(int h) {
         health = h;
         if(this instanceof Player1) {
-            GameScreen.getHealth1().getSprite().setBounds(GameScreen.getHealth1().getX(), GameScreen.getHealth1().getY(), getHealth(), 30);
+            GameScreen.getHealth1().getSprite().
+            setBounds(GameScreen.getHealth1().
+            getX(), GameScreen.getHealth1().getY(), getHealth(), 30);
         } else {
-            GameScreen.getHealth2().getSprite().setBounds(1350-getHealth(), GameScreen.getHealth2().getY(), getHealth(), 30);
+            GameScreen.getHealth2().getSprite().setBounds(1350-getHealth(),
+            GameScreen.getHealth2().getY(), getHealth(), 30);
         }
     }
     public Projectile loveLetter() throws IOException {
@@ -97,16 +102,24 @@ public class Player extends Object {
                 changeSprite(getF1());
             }
             setAniFrameOrder(getAniFrameOrder()+1);
-        } else if(getAniFrameOrder() == 1 && (System.currentTimeMillis() - getStartTime()) > 75) {
+        } else if(getAniFrameOrder() == 1 &&
+        (System.currentTimeMillis() - getStartTime()) > 75) {
             if(getLeftFacing()) {
                 changeSprite(getF2R());
-                letter = new Projectile(new File("Images/AccessoryFolder/Reverse_NewHeartLetterOne.png"), getX()-100, getY()+30, 85, 15, -15, 0, 10);
+                letter = new Projectile(new File
+                ("Images/AccessoryFolder/Reverse_NewHeartLetterOne.png"),
+                getX()-100, getY()+30, 85, 15,
+                -15, 0, 10);
             } else {
                 changeSprite(getF2());
-                letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), getX()+50, getY()+30, 85, 15, 15, 0, 10);
+                letter = new Projectile(new File
+                ("Images/AccessoryFolder/NewHeartLetterOne.png"),
+                getX()+50, getY()+30, 85, 15,
+                15, 0, 10);
             }
             setAniFrameOrder(getAniFrameOrder()+1);
-        } else if(getAniFrameOrder() == 2 && (System.currentTimeMillis() - getStartTime()) > 150) {
+        } else if(getAniFrameOrder() == 2 &&
+        (System.currentTimeMillis() - getStartTime()) > 150) {
             letter = null;
             if (getLeftFacing()) {
                 changeSprite(getWalkOneLeft());

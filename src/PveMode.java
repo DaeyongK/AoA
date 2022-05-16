@@ -18,21 +18,34 @@ public class PveMode extends JLayeredPane {
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
-        backgroundImage = new Object(new File("Images/backgroundSprite.png"), 0, 0, 1400, 950).getSprite();
+        backgroundImage = new Object(new File("Images/backgroundSprite.png"),
+        0, 0, 1400, 950).getSprite();
         points = new JLabel("Points: " + balloonsPopped);
-        points.setBounds(400, 0, 200, 50);
+        points.setFont(new Font("Serif", Font.PLAIN, 30));
+        points.setBounds(400, 30, 200, 50);
         time = new JLabel("Time: " + seconds);
-        time.setBounds(700, 0, 200, 50);
-        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 30, 100);
-        bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
-        l1 = new Platform(new File("images/platform.png"), 250, 620, 200, 50);
-        l2 = new Platform(new File("images/platform.png"), 600, 620, 200, 50);
-        l3 = new Platform(new File("images/platform.png"), 950, 620, 200, 50);
-        h1 = new Platform(new File("images/platform.png"), 300, 380, 300, 50);
-        h2 = new Platform(new File("images/platform.png"), 800, 380, 300, 50);
-        bl = new Platform(new File("images/bound.png"), -100, -100, 100, 1500);
-        bt = new Platform(new File("images/bound.png"), -100, -100, 1500, 100);
-        br = new Platform(new File("images/bound.png"), 1400, -100, 100, 1500);
+        time.setFont(new Font("Serif", Font.PLAIN, 30));
+        time.setBounds(700, 30, 200, 50);
+        pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),
+        10, 100, 30, 100);
+        bottom = new Platform(new File("images/platform.png"),
+        0, 825, 1400, 100);
+        l1 = new Platform(new File("images/platform.png"),
+        250, 620, 200, 50);
+        l2 = new Platform(new File("images/platform.png"),
+        600, 620, 200, 50);
+        l3 = new Platform(new File("images/platform.png"),
+        950, 620, 200, 50);
+        h1 = new Platform(new File("images/platform.png"),
+        300, 380, 300, 50);
+        h2 = new Platform(new File("images/platform.png"),
+        800, 380, 300, 50);
+        bl = new Platform(new File("images/bound.png"),
+        -100, -100, 100, 1500);
+        bt = new Platform(new File("images/bound.png"),
+        -100, -100, 1500, 100);
+        br = new Platform(new File("images/bound.png"),
+        1400, -100, 100, 1500);
         add(pl1.getSprite());
         add(bottom.getSprite());
         add(l1.getSprite());
@@ -75,22 +88,29 @@ public class PveMode extends JLayeredPane {
                     int maxXReference = o.getX() + o.getWidth();
                     int minYReference = o.getY() + o.getHeight();
                     int maxYReference = o.getY();
-                    boolean xClip = (y <= maxYReference && y+50 > maxYReference)
-                            || (y+50 >= minYReference && y < minYReference) ||
-                            (y > maxYReference && y+50 < minYReference);
-                    boolean yClip = (x+20 >= maxXReference && x < maxXReference)
-                            || (x <= minXReference && x+20 > minXReference) ||
-                            (x+20 < maxXReference && x > minXReference);
-                    if((y < maxYReference && y+50 >= maxYReference && yClip && !(y+50 >= minYReference)) ||
-                    (y+50 > minYReference && y <= minYReference && yClip) || (x+20 > maxXReference && x <= maxXReference && xClip) ||
-                    (x < minXReference && x+20 >= minXReference && xClip) ||
-                    (x >= minXReference && x+20 <= maxXReference && y >= maxYReference && y+50 <= minYReference)) {
+                    boolean xClip = (y <= maxYReference && y+50 >
+                    maxYReference) || (y+50 >= minYReference && y
+                    < minYReference) || (y > maxYReference &&
+                    y+50 < minYReference);
+                    boolean yClip = (x+20 >= maxXReference && x <
+                    maxXReference) || (x <= minXReference && x+20
+                    > minXReference) || (x+20 < maxXReference && x
+                    > minXReference);
+                    if((y < maxYReference && y+50 >= maxYReference && yClip &&
+                    !(y+50 >= minYReference)) ||(y+50 > minYReference && y <=
+                    minYReference && yClip) || (x+20 > maxXReference && x <=
+                    maxXReference && xClip) || (x < minXReference && x+20 >=
+                    minXReference && xClip) || (x >= minXReference && x+20 <=
+                    maxXReference && y >= maxYReference && y+50 <=
+                    minYReference)) {
                         illegal = true;
                     }
                 }
             }
             bCount++;
-            Object balloon = new Object(new File("Images/BalloonSprite_One.png"), x, y, 25, 70);
+            Object balloon = new Object(new File
+            ("Images/BalloonSprite_One.png"),
+            x, y, 25, 70);
             allBalloons.add(balloon);
             add(balloon.getSprite());
             moveToFront(balloon.getSprite());
@@ -110,8 +130,10 @@ public class PveMode extends JLayeredPane {
                 generateOK = false;
             }
             Thread.sleep(10);
-            time.setText("Time: " + (60 - (int) (System.currentTimeMillis() - startTime) / 1000));
-            if(60 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
+            time.setText("Time: " + (60 - (int)
+            (System.currentTimeMillis() - startTime) / 1000));
+            if(60 - (int)
+            ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
                 running = false;
             }
             if(pl1.getLoveLetter()) {

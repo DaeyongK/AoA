@@ -9,10 +9,14 @@ public class StartScreen extends JLayeredPane {
         super();
         setLayout(null);
         setBackground(new Color(255, 255, 255));
-        pvp = new CircularButton(270, 700, 150, Color.decode("#000000"), new Color(0.016f, 0.851f, 1f, .7f), "PVP");
-        pve = new CircularButton(620, 700, 150, Color.decode("#000000"), new Color(0.016f, 0.851f, 1f, .7f), "PVE");
-        exit = new CircularButton(970, 700, 150, Color.decode("#000000"), new Color(0.016f, 0.851f, 1f, .7f), "EXIT");
-        backgroundImage = new Object(new File("Images/IntroScreen.png"), 0, 0, 1400, 950).getSprite();
+        pvp = new CircularButton(270, 700, 150, Color.decode("#000000")
+        , new Color(0.016f, 0.851f, 1f, .7f), "PVP");
+        pve = new CircularButton(620, 700, 150, Color.decode("#000000")
+        , new Color(0.016f, 0.851f, 1f, .7f), "PVE");
+        exit = new CircularButton(970, 700, 150, Color.decode("#000000")
+        , new Color(0.016f, 0.851f, 1f, .7f), "EXIT");
+        backgroundImage = new Object(new File("Images/IntroScreen.png")
+        , 0, 0, 1400, 950).getSprite();
         add(pvp);
         add(pve);
         add(exit);
