@@ -1,10 +1,7 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 public class StartScreen extends JLayeredPane {
     CircularButton pvp, pve, exit;
     private JLabel backgroundImage;
@@ -23,6 +20,4 @@ public class StartScreen extends JLayeredPane {
         moveToBack(backgroundImage);
         repaint();
     }
-
-
 }

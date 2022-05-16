@@ -1,7 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-
 public class MyKeyListener implements KeyListener {
     Player1 p1;
     Player2 p2;

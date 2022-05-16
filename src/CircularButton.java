@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-
 class CircularButton extends JButton implements ActionListener {
     private String type;
     CircularButton(int xCoord, int yCoord, int r, Color c, Color bc, String t) {
@@ -15,6 +13,7 @@ class CircularButton extends JButton implements ActionListener {
     }
     public void actionPerformed(ActionEvent event) {
         if(type.equals("EXIT")) {
+            Game.setDecided(true);
             System.exit(0);
         } else if(type.equals("PVP")) {
             Game.setState("PVP");
@@ -22,6 +21,9 @@ class CircularButton extends JButton implements ActionListener {
             Game.setState("PVE");
         } else if(type.equals("REPLAY")) {
             Game.setState("REPLAY");
+        } else if(type.equals("REDO")) {
+            Game.setDecided(true);
+            Game.setState("REDO");
         }
     }
 }

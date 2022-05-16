@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 public class GameScreen extends JLayeredPane {
     private static Object healthb1, healthb2, health1, health2;
     private static JLabel backgroundImage;

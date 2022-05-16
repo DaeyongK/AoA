@@ -1,5 +1,3 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -12,12 +10,8 @@ public class Player1 extends Player {
         setWalkTwoLeft(getIcon(new File("Images/Kaguya/Kaguya_Reverse/Kaguya_Reverse_Walking_Two.png")));
         setF1(getIcon(new File("Images/Kaguya/Kaguya_LoveLetter_One.png")));
         setF2(getIcon(new File("Images/Kaguya/Kaguya_LoveLetter_Two.png")));
-//        setF3(getIcon(new File("Images/Kaguya/Kaguya_LoveLetter_Three.png")));
-//        setF4(getIcon(new File("Images/Kaguya/Kaguya_LoveLetter_Four.png")));
         setF1R(getIcon(new File("Images/Kaguya/Kaguya_Reverse/Kaguya_Reverse_LoveLetter_One.png")));
         setF2R(getIcon(new File("Images/Kaguya/Kaguya_Reverse/Kaguya_Reverse_LoveLetter_Two.png")));
-//        setF3R(getIcon(new File("Images/Kaguya/Kaguya_Reverse/Kaguya_Reverse_LoveLetter_Three.png")));
-//        setF4R(getIcon(new File("Images/Kaguya/Kaguya_Reverse/Kaguya_Reverse_LoveLetter_Four.png")));
         changeSprite(getWalkOneRight());
         setLeftFacing(false);
         setOne(true);

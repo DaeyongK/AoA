@@ -1,6 +1,3 @@
-
-import javax.imageio.ImageIO;
-import javax.print.attribute.standard.Media;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -8,24 +5,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
-
-public class Pvemode extends JLayeredPane {
+public class PveMode extends JLayeredPane {
     private Player1 pl1;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
-    private ArrayList<Object> allObjects = new ArrayList<Object>();
-    private ArrayList<Object> allBalloons = new ArrayList<Object>();
-    private ArrayList<Projectile> allProjectiles = new ArrayList<Projectile>();
+    private ArrayList<Object> allObjects = new ArrayList<>();
+    private ArrayList<Object> allBalloons = new ArrayList<>();
+    private ArrayList<Projectile> allProjectiles = new ArrayList<>();
     private JLabel backgroundImage;
     private JLabel points, time;
     private int balloonsPopped = 0, seconds = 60;
-    Pvemode() throws IOException, InterruptedException {
+    PveMode() throws IOException {
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
         backgroundImage = new Object(new File("Images/backgroundSprite.png"), 0, 0, 1400, 950).getSprite();
-        points = new JLabel("Points: " + String.valueOf(balloonsPopped));
+        points = new JLabel("Points: " + balloonsPopped);
         points.setBounds(400, 0, 200, 50);
-        time = new JLabel("Time: " + String.valueOf(seconds));
+        time = new JLabel("Time: " + seconds);
         time.setBounds(700, 0, 200, 50);
         pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 30, 100);
         bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
@@ -114,8 +110,8 @@ public class Pvemode extends JLayeredPane {
                 generateOK = false;
             }
             Thread.sleep(10);
-            time.setText("Time: " + String.valueOf(60 - (int) (System.currentTimeMillis() - startTime) / 1000));
-            if(60 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
+            time.setText("Time: " + (60 - (int) (System.currentTimeMillis() - startTime) / 1000));
+            if(5 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
                 running = false;
             }
             if(pl1.getLoveLetter()) {
@@ -169,7 +165,7 @@ public class Pvemode extends JLayeredPane {
                         allBalloons.remove(b);
                         remove(b.getSprite());
                         balloonsPopped++;
-                        points.setText("Points: " + String.valueOf(balloonsPopped));
+                        points.setText("Points: " + balloonsPopped);
                         generateOK = true;
                         repaint();
                         bitr = allBalloons.iterator();
