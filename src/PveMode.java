@@ -111,7 +111,7 @@ public class PveMode extends JLayeredPane {
             }
             Thread.sleep(10);
             time.setText("Time: " + (60 - (int) (System.currentTimeMillis() - startTime) / 1000));
-            if(5 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
+            if(60 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
                 running = false;
             }
             if(pl1.getLoveLetter()) {
