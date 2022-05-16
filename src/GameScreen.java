@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 public class GameScreen extends JPanel{
     private static Object healthb1, healthb2, health1, health2;
+    private static Object backgroundImage;
     private Player1 pl1;
     private Player2 pl2;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
@@ -16,6 +17,7 @@ public class GameScreen extends JPanel{
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
+        backgroundImage = new Object(new File("Images/backgroundSprite.png"),0,0,1400,950);
         healthb1 = new Object(new File("Images/healthbackground.png"), 50, 50, 300, 30);
         healthb2 = new Object(new File("Images/healthbackground.png"), 1050, 50, 300, 30);
         health1 = new Object(new File("Images/healthbar.png"), 50, 50, 300, 30);
@@ -32,6 +34,7 @@ public class GameScreen extends JPanel{
         bl = new Platform(new File("images/bound.png"), -100, -100, 100, 1500);
         bt = new Platform(new File("images/bound.png"), -100, -100, 1500, 100);
         br = new Platform(new File("images/bound.png"), 1400, -100, 100, 1500);
+
         add(pl1.getSprite());
         add(pl2.getSprite());
         add(bottom.getSprite());
@@ -47,6 +50,7 @@ public class GameScreen extends JPanel{
         add(health2.getSprite());
         add(healthb1.getSprite());
         add(healthb2.getSprite());
+        add(backgroundImage.getSprite());
         allObjects.add(bottom);
         allObjects.add(l1);
         allObjects.add(l2);
@@ -56,6 +60,7 @@ public class GameScreen extends JPanel{
         allObjects.add(bl);
         allObjects.add(bt);
         allObjects.add(br);
+        allObjects.add(backgroundImage);
         setFocusable(true);
         addKeyListener(new MyKeyListener(pl1, pl2));
     }
