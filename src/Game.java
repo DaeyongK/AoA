@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.io.IOException;
 public class Game {
 	private JFrame frame;
+	private ImageIcon backgroundIcon;
+	private JLabel backgroundLabel;
 	private GameScreen contentPane;
 	private StartScreen start;
 	private GameEnd gameEnd;

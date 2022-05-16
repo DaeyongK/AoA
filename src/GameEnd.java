@@ -1,13 +1,54 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class GameEnd extends JPanel {
+public class GameEnd extends JPanel { //displays images correctly
     String winner;
+    private BufferedImage img;
+    private JButton playAgain;
+    private JButton exitGame;
     GameEnd(String w) {
         super();
         winner = w;
+        setLayout(null);
+        File resource = new File("Images/PlayerOneScreen.png");
+        if (winner.equals("two")) {
+            resource = new File("Images/PlayerTwoScreen.png");
+        }
+        try {
+            img = ImageIO.read(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exitGame = new JButton();
+        exitGame.setBounds(585,600,150,50);
+        playAgain = new JButton();
+        playAgain.setBounds(585,400,150,50);
+        add(exitGame);
+        add(playAgain);
+
     }
     public void end() {
         System.out.println(winner);
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(img,0,0,this);
+
+
+    }
+    public void actionPerformed(ActionEvent event) {
+        if(event.getSource() == exitGame) {
+            //i believe these are the two ways to change between the screens
+
+        } else if (event.getSource() == playAgain) {
+
+        }
     }
 }
 //
@@ -43,3 +84,4 @@ public class GameEnd extends JPanel {
 //        at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 //        at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 //        at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
