@@ -5,6 +5,7 @@ public class Game {
 	private ImageIcon backgroundIcon;
 	private JLabel backgroundLabel;
 	private GameScreen contentPane;
+	private Pvemode pvePane;
 	private StartScreen start;
 	private GameEnd gameEnd;
 	private String winner;
@@ -29,6 +30,11 @@ public class Game {
 				contentPane.run();
 			} else if(state.equals("EXIT")) {
 				System.exit(0);
+			} else if(state.equals("PVE")) {
+				pvePane = new Pvemode();
+				frame.setContentPane(pvePane);
+				frame.revalidate();
+				pvePane.run();
 			}
 		}
 

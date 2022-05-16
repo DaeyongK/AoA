@@ -22,9 +22,11 @@ public class MyKeyListener implements KeyListener {
         try {
             p1.keyPressed(e);
         } catch (IOException ex) {}
-        try {
-            p2.keyPressed(e);
-        } catch (IOException ex) {}
+        if(p2!=null) {
+            try {
+                p2.keyPressed(e);
+            } catch (IOException ex) {}
+        }
     }
     public void keyReleased(KeyEvent e) {
         p1.keyReleased(e);

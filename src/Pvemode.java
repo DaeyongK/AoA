@@ -1,4 +1,6 @@
-/*
+
+import javax.imageio.ImageIO;
+import javax.print.attribute.standard.Media;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -7,15 +9,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Pvemode extends JPanel{
+public class Pvemode extends JLayeredPane {
     private Player1 pl1;
     private Platform bottom, l1, l2, l3, h1, h2, bl, bt, br;
     private ArrayList<Object> allObjects = new ArrayList<Object>();
+    private ArrayList<Object> allBalloons = new ArrayList<Object>();
     private ArrayList<Projectile> allProjectiles = new ArrayList<Projectile>();
-    Pvemode() throws IOException {
+    private JLabel backgroundImage;
+    private JLabel points, time;
+    private int balloonsPopped = 0, seconds = 60;
+    Pvemode() throws IOException, InterruptedException {
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        MediaTracker tracker = new MediaTracker(this);
+        Image image = toolkit.getImage("Images/backgroundSprite.png");
+        tracker.addImage(image, 0);
+        backgroundImage = new Object(new File("Images/backgroundSprite.png"), 0, 0, 1400, 950).getSprite();
+        points = new JLabel("Points: " + String.valueOf(balloonsPopped));
+        points.setBounds(400, 0, 200, 50);
+        time = new JLabel("Time: " + String.valueOf(seconds));
+        time.setBounds(700, 0, 200, 50);
         pl1 = new Player1(new File("Images/Kaguya/Kaguya_Walking_One.png"),10, 100, 30, 100);
         bottom = new Platform(new File("images/platform.png"), 0, 825, 1400, 100);
         l1 = new Platform(new File("images/platform.png"), 250, 620, 200, 50);
@@ -36,6 +51,10 @@ public class Pvemode extends JPanel{
         add(bl.getSprite());
         add(bt.getSprite());
         add(br.getSprite());
+        add(points);
+        add(time);
+        add(backgroundImage);
+        moveToBack(backgroundImage);
         allObjects.add(bottom);
         allObjects.add(l1);
         allObjects.add(l2);
@@ -70,96 +89,116 @@ public class Pvemode extends JPanel{
                     boolean yClip = (x+20 >= maxXReference && x < maxXReference)
                             || (x <= minXReference && x+20 > minXReference) ||
                             (x+20 < maxXReference && x > minXReference);
-                    if((y < maxYReference && y+50 >= maxYReference && yClip && !(y+50 >= minYReference) ||
+                    if((y < maxYReference && y+50 >= maxYReference && yClip && !(y+50 >= minYReference)) ||
                     (y+50 > minYReference && y <= minYReference && yClip) || (x+20 > maxXReference && x <= maxXReference && xClip) ||
-                    (x < minXReference && x+20 >= minXReference && xClip))) {
+                    (x < minXReference && x+20 >= minXReference && xClip) ||
+                    (x >= minXReference && x+20 <= maxXReference && y >= maxYReference && y+50 <= minYReference)) {
                         illegal = true;
                     }
                 }
             }
             bCount++;
-            Object balloon = new Object(new File("Images/BalloonSprite_One.png"), x, y, 20, 50);
-            allObjects.add(balloon);
+            Object balloon = new Object(new File("Images/BalloonSprite_One.png"), x, y, 25, 70);
+            allBalloons.add(balloon);
             add(balloon.getSprite());
+            moveToFront(balloon.getSprite());
             if(bCount==3) {
                 allBalloonsGenerated = true;
             }
         }
     }
     public int run() throws InterruptedException, IOException {
+        long startTime = System.currentTimeMillis();
         requestFocus();
         boolean running = true;
+        boolean generateOK = true;
         while(running) {
+            if(balloonsPopped % 3 == 0 && generateOK) {
+                generateBalloons();
+                generateOK = false;
+            }
             Thread.sleep(10);
+            time.setText("Time: " + String.valueOf(60 - (int) (System.currentTimeMillis() - startTime) / 1000));
+            if(60 - (int) ((System.currentTimeMillis() - startTime) / 1000) <= 0) {
+                running = false;
+            }
             if(pl1.getLoveLetter()) {
                 Projectile l = pl1.loveLetter();
                 if(l!=null) {
                     add(l.getSprite());
+                    moveToFront(l.getSprite());
                     allProjectiles.add(l);
                 }
+            } else {
+                if(pl1.getXVel() > 0) {
+                    pl1.setACount(0);
+                    pl1.setDCount(pl1.getDCount() + 1);
+                    if(pl1.getOne() && pl1.getDCount() % 9 == 0) {
+                        pl1.changeSprite(pl1.getWalkTwoRight());
+                        pl1.setOne(false);
+                    } else if (!pl1.getOne() && pl1.getDCount() % 9 == 0){
+                        pl1.changeSprite(pl1.getWalkOneRight());
+                        pl1.setOne(true);
+                    }
+                } else if(pl1.getXVel() < 0){
+                    pl1.setDCount(0);
+                    pl1.setACount(pl1.getACount() + 1);
+                    if(pl1.getOne() && pl1.getACount() % 9 == 0) {
+                        pl1.changeSprite(pl1.getWalkTwoLeft());
+                        pl1.setOne(false);
+                    } else if (!pl1.getOne() && pl1.getACount() % 9 == 0){
+                        pl1.changeSprite(pl1.getWalkOneLeft());
+                        pl1.setOne(true);
+                    }
                 } else {
-                    if(pl1.getXVel() > 0) {
-                        pl1.setACount(0);
-                        pl1.setDCount(pl1.getDCount() + 1);
-                        if(pl1.getOne() && pl1.getDCount() % 9 == 0) {
-                            pl1.changeSprite(pl1.getWalkTwoRight());
-                            pl1.setOne(false);
-                        } else if (!pl1.getOne() && pl1.getDCount() % 9 == 0){
-                            pl1.changeSprite(pl1.getWalkOneRight());
-                            pl1.setOne(true);
-                        }
-                    } else if(pl1.getXVel() < 0){
-                        pl1.setDCount(0);
-                        pl1.setACount(pl1.getACount() + 1);
-                        if(pl1.getOne() && pl1.getACount() % 9 == 0) {
-                            pl1.changeSprite(pl1.getWalkTwoLeft());
-                            pl1.setOne(false);
-                        } else if (!pl1.getOne() && pl1.getACount() % 9 == 0){
-                            pl1.changeSprite(pl1.getWalkOneLeft());
-                            pl1.setOne(true);
-                        }
+                    if(pl1.getACount()==0) {
+                        pl1.changeSprite(pl1.getWalkOneRight());
                     } else {
-                        if(pl1.getACount()==0) {
-                            pl1.changeSprite(pl1.getWalkOneRight());
-                        } else {
-                            pl1.changeSprite(pl1.getWalkOneLeft());
-                        }
+                        pl1.changeSprite(pl1.getWalkOneLeft());
+                    }
+                }
+            }
+            for(Object o : allObjects) {
+                pl1.checkCollision(o);
+            }
+            Iterator<Projectile> itr = allProjectiles.iterator();
+            while(itr.hasNext()) {
+                Projectile proj = itr.next();
+                Iterator<Object> bitr = allBalloons.iterator();
+                while(bitr.hasNext()) {
+                    Object b = bitr.next();
+                    if(proj.checkCollision(b)) {
+                        allProjectiles.remove(proj);
+                        remove(proj.getSprite());
+                        allBalloons.remove(b);
+                        remove(b.getSprite());
+                        balloonsPopped++;
+                        points.setText("Points: " + String.valueOf(balloonsPopped));
+                        generateOK = true;
+                        repaint();
+                        bitr = allBalloons.iterator();
+                        itr = allProjectiles.iterator();
                     }
                 }
                 for(Object o : allObjects) {
-                    pl1.checkCollision(o);
-                }
-
-                //fix this part
-                Iterator<Projectile> itr = allProjectiles.iterator();
-                while(itr.hasNext()) {
-                    Projectile proj = itr.next();
-                    if(pl1.checkCollision(proj)) {
-                        pl1.setHealth(p.getHealth()-proj.getDamage());
+                    if(proj.checkCollision(o)) {
                         allProjectiles.remove(proj);
                         remove(proj.getSprite());
                         repaint();
                         itr = allProjectiles.iterator();
                     }
-                    for(Object o : allObjects) {
-                        if(proj.checkCollision(o)) {
-                            allProjectiles.remove(proj);
-                            remove(proj.getSprite());
-                            repaint();
-                            itr = allProjectiles.iterator();
-                        }
-                    }
-                }
-                pl1.gravityCalc();
-                pl1.setX(pl1.getX()+pl1.getXVel());
-                pl1.setY(pl1.getY()+pl1.getYVel());
-                pl1.move(pl1.getX(), pl1.getY());
-                for(Projectile proj : allProjectiles) {
-                    proj.setX(proj.getX() + proj.getXVel());
-                    proj.setY(proj.getY() + proj.getYVel());
-                    proj.move(proj.getX(), proj.getY());
                 }
             }
+            pl1.gravityCalc();
+            pl1.setX(pl1.getX()+pl1.getXVel());
+            pl1.setY(pl1.getY()+pl1.getYVel());
+            pl1.move(pl1.getX(), pl1.getY());
+            for(Projectile proj : allProjectiles) {
+                proj.setX(proj.getX() + proj.getXVel());
+                proj.setY(proj.getY() + proj.getYVel());
+                proj.move(proj.getX(), proj.getY());
+            }
         }
+        return balloonsPopped;
     }
-} */
+}
