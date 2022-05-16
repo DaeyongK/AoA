@@ -20,7 +20,7 @@ public class Game {
 		frame.setSize(1400, 950);
 		start = new StartScreen();
 		frame.setContentPane(start);
-
+		frame.revalidate();
 		while(true) {
 			Thread.sleep(10);
 			if(state.equals("PVP")) {

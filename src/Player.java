@@ -109,7 +109,7 @@ public class Player extends Object {
         } else if(getAniFrameOrder() == 1 && (System.currentTimeMillis() - getStartTime()) > 75) {
             if(getLeftFacing()) {
                 changeSprite(getF2R());
-                letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), getX()-100, getY()+30, 85, 15, -15, 0, 10);
+                letter = new Projectile(new File("Images/AccessoryFolder/Reverse_NewHeartLetterOne.png"), getX()-100, getY()+30, 85, 15, -15, 0, 10);
             } else {
                 changeSprite(getF2());
                 letter = new Projectile(new File("Images/AccessoryFolder/NewHeartLetterOne.png"), getX()+50, getY()+30, 85, 15, 15, 0, 10);

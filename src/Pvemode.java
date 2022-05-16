@@ -22,10 +22,6 @@ public class Pvemode extends JLayeredPane {
         super();
         setLayout(null);
         setBackground(new Color(255,255,255));
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        MediaTracker tracker = new MediaTracker(this);
-        Image image = toolkit.getImage("Images/backgroundSprite.png");
-        tracker.addImage(image, 0);
         backgroundImage = new Object(new File("Images/backgroundSprite.png"), 0, 0, 1400, 950).getSprite();
         points = new JLabel("Points: " + String.valueOf(balloonsPopped));
         points.setBounds(400, 0, 200, 50);
