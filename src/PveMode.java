@@ -88,20 +88,20 @@ public class PveMode extends JLayeredPane {
                     int maxXReference = o.getX() + o.getWidth();
                     int minYReference = o.getY() + o.getHeight();
                     int maxYReference = o.getY();
-                    boolean xClip = (y <= maxYReference && y+50 >
-                    maxYReference) || (y+50 >= minYReference && y
+                    boolean xClip = (y <= maxYReference && y+90 >
+                    maxYReference) || (y+90 >= minYReference && y
                     < minYReference) || (y > maxYReference &&
-                    y+50 < minYReference);
+                    y+90 < minYReference);
                     boolean yClip = (x+20 >= maxXReference && x <
                     maxXReference) || (x <= minXReference && x+20
                     > minXReference) || (x+20 < maxXReference && x
                     > minXReference);
-                    if((y < maxYReference && y+50 >= maxYReference && yClip &&
-                    !(y+50 >= minYReference)) ||(y+50 > minYReference && y <=
+                    if((y < maxYReference && y+90 >= maxYReference && yClip &&
+                    !(y+90 >= minYReference)) ||(y+90 > minYReference && y <=
                     minYReference && yClip) || (x+20 > maxXReference && x <=
                     maxXReference && xClip) || (x < minXReference && x+20 >=
                     minXReference && xClip) || (x >= minXReference && x+20 <=
-                    maxXReference && y >= maxYReference && y+50 <=
+                    maxXReference && y >= maxYReference && y+90 <=
                     minYReference)) {
                         illegal = true;
                     }
@@ -110,7 +110,7 @@ public class PveMode extends JLayeredPane {
             bCount++;
             Object balloon = new Object(new File
             ("Images/BalloonSprite_One.png"),
-            x, y, 25, 70);
+            x, y, 30, 90);
             allBalloons.add(balloon);
             add(balloon.getSprite());
             moveToFront(balloon.getSprite());
